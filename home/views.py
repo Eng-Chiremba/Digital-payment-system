@@ -7,3 +7,8 @@ def home(request):
 def about(request):
     
     return render(request, 'home/about.html')
+
+def help(request):
+
+    return render(request, 'home/help.html')
+
