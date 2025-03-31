@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome - Select Your Role</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #02113c;
+        color: #fff;
+      }
+      .step-guide {
+        margin: 2rem 0;
+      }
+      .step {
+        background: #1e1e1e;
+        padding: 1.5rem;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+      .step:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container text-center">
+      <h1 class="mt-5">Welcome to Digital Payment System</h1>
+      <p class="lead">Please choose your role to continue</p>
+
+      <!-- Step Guide / Role Selection -->
+      <div class="row justify-content-center step-guide">
+        <div class="col-md-4">
+          <div class="step p-4 mb-4">
+            <h3>Customer</h3>
+            <p>Make payments quickly and securely.</p>
+            <a href="{% url 'users:customer_signup' %}" class="btn btn-primary"
+              >Sign Up as Customer</a
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step p-4 mb-4">
+            <h3>Service Provider</h3>
+            <p>Receive payments and manage transactions easily.</p>
+            <a href="{% url 'users:business_signup' %}" class="btn btn-primary"
+              >Sign Up as Service Provider</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Optionally, link to login page -->
+      <p>
+        Already have an account?
+        <a href="{% url 'users:login' %}" class="text-info">Log in here</a>
+      </p>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

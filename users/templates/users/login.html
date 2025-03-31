@@ -1,0 +1,160 @@
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Animation Keyframes */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* General Styles */
+      body {
+        margin: 0;
+        font-family: "Arial", sans-serif;
+        background-color: #02113c; /* Dark theme background */
+        color: #ffffff; /* Light text for contrast */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Container Styles */
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 20px;
+      }
+
+      /* Form Container */
+      .form-container {
+        background-color: #1e1e1e; /* Slightly lighter dark for contrast */
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .form-container h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      /* Input Fields */
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #333;
+        border-radius: 5px;
+        background-color: #f2f4f6;
+        color: #26325a;
+        transition: border-color 0.3s, transform 0.2s;
+      }
+
+      input:focus {
+        border-color: #6200ea; /* Purple highlight for focus */
+        outline: none;
+        transform: scale(1.02);
+      }
+
+      /* Labels */
+      label {
+        display: block;
+        text-align: left;
+        font-size: 14px;
+        margin: 10px 0 5px;
+        color: #636389; /* Muted text for labels */
+      }
+
+      /* Button */
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #ffa245; /* Accent color */
+        border: none;
+        border-radius: 5px;
+        color: #02113c;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #7e3ff2;
+        transform: scale(1.03);
+      }
+
+      /* Link */
+      a {
+        color: #6200ea;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %}
+      <div class="form-container">
+        <h1>Log In</h1>
+        <form method="POST" action="{% url 'users:login' %}">
+          {% csrf_token %}
+          <label for="phone_number">Phone Number</label>
+          <input
+            type="tel"
+            placeholder="0787433135"
+            id="phone_number"
+            name="phone_number"
+            required
+          />
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+
+          <button type="submit">Log in</button>
+        </form>
+        <div class="mt-4 text-center">
+          <p>Or signin with:</p>
+          <a
+            href="{% provider_login_url 'google' %}"
+            class="btn btn-outline-light me-2"
+            >Google</a
+          >
+        </div>
+        <footer style="font-size: smaller; color: #54535392">
+          Copyright StaceyLtd @2025
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
