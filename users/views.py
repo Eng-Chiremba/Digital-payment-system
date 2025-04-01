@@ -24,7 +24,7 @@ def customer_signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('complete-profile')  # Replace with your URL name or path
+            return redirect('complete-profile') 
     else:
         form = CustomerSignupForm()
     return render(request, 'users/customer_signup.html', {'form': form})
@@ -72,7 +72,7 @@ def complete_profile(request):
             user = form.save()
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return redirect('home') # take note 'home ' is only for debugging .. in production use customer-dashboard
+            return redirect('home') # take note 'home ' is only for debugging .. in production tichashandisa customer-dashboard
     else:
         form = ProfileCompletionForm(instance=user)
     return render(request, 'users/complete_profile.html', {'form': form})

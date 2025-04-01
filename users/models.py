@@ -12,11 +12,11 @@ class CustomUser(AbstractUser):
         default='customer'
     )
     
-    # Additional fields for service provider
+     #for service provider
     company_name = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
 
-    # Additional fields for both user types
+    
     date_of_birth = models.DateField(null=True, blank=True)
     id_number = models.CharField(max_length=50, null=True, blank=True)
 

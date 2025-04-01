@@ -1,7 +1,7 @@
 """
 URL configuration for strike project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+ The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path("", include("users.urls")),
+    path("", include("home.urls")),
     path('accounts/', include('allauth.urls')),
 ]
