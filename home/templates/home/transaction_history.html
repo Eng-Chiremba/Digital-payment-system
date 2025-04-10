@@ -1,0 +1,454 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'home/home_pg.css' %}"
+    />
+    <title>Strike - Transaction History</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a href="{% url 'customer-dashboard' %}" class="logo">Strike</a>
+
+        <button class="menu-btn" id="menuBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="header-right">
+          <a href="{% url 'customer-dashboard' %}">Home</a>
+          <a href="#">Contact</a>
+          <a href="#">About</a>
+        </div>
+      </header>
+
+      <!-- Sidebar -->
+      <div id="sidebar" class="sidebar">
+        <button class="closebtn" id="closeBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="profile-section">
+          <div class="profile-icon">C</div>
+          <h2>Strike</h2>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li>
+            <a href="{% url 'payments' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+              Payments
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'manage_cards' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+              Manage Cards
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'customer_transaction_history' %}" class="active">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                <path
+                  d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+                ></path>
+              </svg>
+              Transaction History
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'credit_score' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                ></path>
+              </svg>
+              Credit Score
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'signout' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Sign Out
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div id="overlay" class="overlay"></div>
+
+      <div class="main-content">
+        <h2>Transaction History</h2>
+
+        <div class="transaction-section">
+          <div class="filter-controls">
+            <div class="search-box">
+              <input
+                type="text"
+                id="searchTransaction"
+                placeholder="Search transactions..."
+              />
+              <button type="button" id="searchBtn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="date-filter">
+              <label for="dateRange">Filter by:</label>
+              <select id="dateRange">
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+                <option value="custom">Custom Range</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="transaction-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Date</th>
+                  <th>Merchant</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                  <td>{{ transaction.id }}</td>
+                  <td>{{ transaction.date|date:"M d, Y" }}</td>
+                  <td>{{ transaction.merchant }}</td>
+                  <td class="amount">{{ transaction.amount }}</td>
+                  <td>
+                    <span
+                      class="status-badge {% if transaction.status == 'Completed' %}completed{% elif transaction.status == 'Pending' %}pending{% else %}failed{% endif %}"
+                    >
+                      {{ transaction.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      class="view-details-btn"
+                      data-id="{{ transaction.id }}"
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="6" class="no-transactions">
+                    No transactions found
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn" disabled>&laquo; Previous</button>
+            <span class="page-info">Page 1 of 1</span>
+            <button class="pagination-btn" disabled>Next &raquo;</button>
+          </div>
+        </div>
+
+        <!-- Transaction Details Modal (Hidden by default) -->
+        <div id="transactionModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Transaction Details</h3>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="detail-row">
+                <div class="detail-label">Transaction ID:</div>
+                <div class="detail-value" id="modalTransactionId"></div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Date:</div>
+                <div class="detail-value" id="modalDate"></div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Merchant:</div>
+                <div class="detail-value" id="modalMerchant"></div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Amount:</div>
+                <div class="detail-value" id="modalAmount"></div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Status:</div>
+                <div class="detail-value" id="modalStatus"></div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Payment Method:</div>
+                <div class="detail-value" id="modalPaymentMethod"></div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Description:</div>
+                <div class="detail-value" id="modalDescription"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="download-receipt-btn">Download Receipt</button>
+            </div>
+          </div>
+        </div>
+
+        <footer>© 2025 StaceyLtd</footer>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar functionality
+        const menuBtn = document.getElementById("menuBtn");
+        const closeBtn = document.getElementById("closeBtn");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+
+        // Open sidebar
+        menuBtn.addEventListener("click", function () {
+          sidebar.classList.add("active");
+          overlay.style.display = "block";
+          document.body.style.overflow = "hidden"; // Prevent scrolling
+        });
+
+        // Close sidebar
+        function closeSidebar() {
+          sidebar.classList.remove("active");
+          overlay.style.display = "none";
+          document.body.style.overflow = "";
+        }
+
+        closeBtn.addEventListener("click", closeSidebar);
+        overlay.addEventListener("click", closeSidebar);
+
+        // Close sidebar when clicking a menu item (mobile)
+        const menuItems = document.querySelectorAll(".sidebar-menu a");
+        menuItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            if (window.innerWidth <= 767) {
+              closeSidebar();
+            }
+          });
+        });
+
+        // Handle window resize
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 767 && sidebar.classList.contains("active")) {
+            closeSidebar();
+          }
+        });
+
+        // Transaction modal functionality
+        const modal = document.getElementById("transactionModal");
+        const viewButtons = document.querySelectorAll(".view-details-btn");
+        const closeModal = document.querySelector(".close-modal");
+
+        viewButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const transactionId = this.getAttribute("data-id");
+
+            // In a real app, you would fetch transaction details from the server
+            // For now, we'll simulate with sample data
+            const sampleDetails = {
+              id: transactionId,
+              date: "April 2, 2025",
+              merchant: "Staceyltd",
+              amount: "$50.00",
+              status: "Completed",
+              paymentMethod: "EcoCash",
+              description: "Purchase of goods",
+            };
+
+            // Populate modal with transaction details
+            document.getElementById("modalTransactionId").textContent =
+              sampleDetails.id;
+            document.getElementById("modalDate").textContent =
+              sampleDetails.date;
+            document.getElementById("modalMerchant").textContent =
+              sampleDetails.merchant;
+            document.getElementById("modalAmount").textContent =
+              sampleDetails.amount;
+            document.getElementById("modalStatus").textContent =
+              sampleDetails.status;
+            document.getElementById("modalPaymentMethod").textContent =
+              sampleDetails.paymentMethod;
+            document.getElementById("modalDescription").textContent =
+              sampleDetails.description;
+
+            // Show modal
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+          });
+        });
+
+        // Close modal when clicking the close button
+        closeModal.addEventListener("click", function () {
+          modal.style.display = "none";
+          document.body.style.overflow = "";
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener("click", function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+          }
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById("searchTransaction");
+        const searchBtn = document.getElementById("searchBtn");
+
+        searchBtn.addEventListener("click", function () {
+          const searchTerm = searchInput.value.toLowerCase();
+          const rows = document.querySelectorAll(".transaction-table tbody tr");
+
+          rows.forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+
+        // Reset search when input is cleared
+        searchInput.addEventListener("input", function () {
+          if (this.value === "") {
+            const rows = document.querySelectorAll(
+              ".transaction-table tbody tr"
+            );
+            rows.forEach((row) => {
+              row.style.display = "";
+            });
+          }
+        });
+
+        // Date filter functionality
+        const dateFilter = document.getElementById("dateRange");
+        dateFilter.addEventListener("change", function () {
+          // In a real app, this would filter transactions based on date
+          // For this demo, we'll just log the selected value
+          console.log("Filter by:", this.value);
+        });
+      });
+    </script>
+  </body>
+</html>

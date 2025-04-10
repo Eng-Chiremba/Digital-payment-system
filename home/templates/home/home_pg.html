@@ -1,577 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href=" {% static 'home/home_pg.css'%} "
+    />
     <title>Strike - Customer Home</title>
-    <style>
-      :root {
-        --primary-color: #6a00ff;
-        --secondary-color: #ffbf4d;
-        --accent-color: #ffa245;
-        --dark-bg: #091533;
-        --darker-bg: #0c133f;
-        --light-text: #ffffff;
-        --card-bg: #131b4a;
-        --success-color: #00c853;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--dark-bg);
-        color: var(--light-text);
-        line-height: 1.6;
-      }
-
-      .container {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      /* Modern Header */
-      .header {
-        background-color: var(--primary-color);
-        padding: 1rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        color: var(--light-text);
-        font-size: 1.8rem;
-        font-weight: bold;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-      }
-
-      .header-right {
-        display: flex;
-        gap: 0.5rem;
-      }
-
-      .header a {
-        color: var(--light-text);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-      }
-
-      .header a.active {
-        background-color: #4d8dff;
-      }
-
-      .header a:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      /* Mobile Menu Button */
-      .menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--light-text);
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-
-      /* Modern Sidebar */
-      .sidebar {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 1001;
-        top: 0;
-        left: 0;
-        background-color: var(--darker-bg);
-        overflow-x: hidden;
-        transition: 0.3s ease-in-out;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-        padding-top: 4rem;
-      }
-
-      .sidebar.active {
-        width: 250px;
-      }
-
-      .profile-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 2rem;
-      }
-
-      .profile-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background-color: var(--accent-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: var(--darker-bg);
-        font-weight: bold;
-        margin-bottom: 1rem;
-      }
-
-      .sidebar h2 {
-        color: var(--secondary-color);
-        margin-bottom: 1.5rem;
-        font-size: 1.4rem;
-      }
-
-      .sidebar-menu {
-        list-style: none;
-        padding: 0;
-      }
-
-      .sidebar-menu li {
-        margin-bottom: 0.5rem;
-      }
-
-      .sidebar-menu a {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1.5rem;
-        text-decoration: none;
-        color: var(--light-text);
-        transition: all 0.3s ease;
-        font-size: 1rem;
-      }
-
-      .sidebar-menu a:hover {
-        background-color: rgba(255, 191, 77, 0.2);
-        color: var(--secondary-color);
-        padding-left: 2rem;
-      }
-
-      .sidebar-menu svg {
-        width: 1.2rem;
-        height: 1.2rem;
-      }
-
-      .closebtn {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: none;
-        border: none;
-        color: var(--light-text);
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-
-      /* Main Content Area */
-      .main-content {
-        flex: 1;
-        padding: 1.5rem;
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-      }
-
-      .content-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      /* Advert Card */
-      .advert-section {
-        background-color: var(--card-bg);
-        border-radius: 12px;
-        overflow: hidden;
-        position: relative;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .advert-image {
-        display: flex;
-        justify-content: center;
-        padding: 1rem;
-      }
-
-      .advert-image img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-      }
-
-      .advert-text-container {
-        overflow: hidden;
-        position: relative;
-        background: linear-gradient(
-          90deg,
-          var(--accent-color),
-          var(--primary-color)
-        );
-        padding: 1rem;
-      }
-
-      .advert-text {
-        font-family: "Segoe UI", sans-serif;
-        text-align: center;
-        font-weight: 500;
-        font-size: 1.1rem;
-        color: var(--light-text);
-        animation: fadeInOut 5s infinite ease-in-out;
-      }
-
-      @keyframes fadeInOut {
-        0%,
-        100% {
-          opacity: 0.7;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-
-      /* Payment Section */
-      .payment-section {
-        background-color: var(--card-bg);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .payment-section h3 {
-        color: var(--secondary-color);
-        margin-bottom: 1.5rem;
-        font-size: 1.4rem;
-        position: relative;
-        padding-bottom: 0.5rem;
-      }
-
-      .payment-section h3::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background-color: var(--accent-color);
-        border-radius: 3px;
-      }
-
-      .payment-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-      }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .payment-form label {
-        font-weight: 500;
-        font-size: 0.9rem;
-      }
-
-      .payment-form input,
-      .payment-form select {
-        padding: 0.75rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.05);
-        color: var(--light-text);
-        font-size: 1rem;
-        transition: all 0.3s ease;
-      }
-
-      .payment-form input:focus,
-      .payment-form select:focus {
-        outline: none;
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 3px rgba(255, 162, 69, 0.2);
-      }
-
-      .payment-form button {
-        margin-top: 0.5rem;
-        padding: 0.875rem;
-        background: linear-gradient(
-          to right,
-          var(--accent-color),
-          var(--secondary-color)
-        );
-        border: none;
-        border-radius: 8px;
-        color: var(--darker-bg);
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(255, 162, 69, 0.3);
-      }
-
-      .payment-form button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(255, 162, 69, 0.4);
-      }
-
-      .payment-form button:active {
-        transform: translateY(0);
-      }
-
-      /* Payment Details Card */
-      .payment-details {
-        display: none;
-        background-color: var(--card-bg);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        margin-top: 1.5rem;
-        animation: fadeIn 0.5s ease;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .payment-details h3 {
-        color: var(--secondary-color);
-        margin-bottom: 1.5rem;
-        font-size: 1.4rem;
-        position: relative;
-        padding-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .payment-details h3::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background-color: var(--accent-color);
-        border-radius: 3px;
-      }
-
-      .details-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .detail-item {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
-      .detail-label {
-        font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .detail-value {
-        font-size: 1.1rem;
-        font-weight: 500;
-      }
-
-      .total-amount {
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .total-label {
-        font-size: 1rem;
-        font-weight: 500;
-      }
-
-      .total-value {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--secondary-color);
-      }
-
-      .confirm-btn {
-        display: block;
-        width: 100%;
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background-color: var(--success-color);
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 200, 83, 0.3);
-      }
-
-      .confirm-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
-        background-color: #00b34a;
-      }
-
-      .confirm-btn:active {
-        transform: translateY(0);
-      }
-
-      /* Processing Indicator */
-      .processing-indicator {
-        display: none;
-        text-align: center;
-        padding: 1rem;
-        color: var(--light-text);
-      }
-
-      .spinner {
-        display: inline-block;
-        width: 2rem;
-        height: 2rem;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: var(--secondary-color);
-        animation: spin 1s ease-in-out infinite;
-        margin-bottom: 0.5rem;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Footer */
-      footer {
-        text-align: center;
-        padding: 1.5rem;
-        margin-top: 2rem;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.9rem;
-      }
-
-      /* Overlay */
-      .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-      }
-
-      /* Success Message */
-      .success-message {
-        display: none;
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        background-color: var(--success-color);
-        color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        z-index: 1002;
-        animation: slideIn 0.3s ease, fadeOut 0.5s ease 3s forwards;
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateX(100%);
-        }
-        to {
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes fadeOut {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-          visibility: hidden;
-        }
-      }
-
-      /* Responsive Design */
-      @media screen and (min-width: 768px) {
-        .content-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .menu-btn {
-          display: none;
-        }
-
-        .header-right {
-          display: flex;
-        }
-
-        .details-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-
-      @media screen and (max-width: 767px) {
-        .header-right {
-          display: none;
-        }
-
-        .menu-btn {
-          display: block;
-        }
-
-        .main-content {
-          padding: 1rem;
-        }
-
-        .sidebar.active {
-          width: 80%;
-          max-width: 300px;
-        }
-
-        .payment-form input,
-        .payment-form select,
-        .payment-form button {
-          font-size: 16px; /* Prevents iOS zoom on focus */
-        }
-      }
-    </style>
   </head>
   <body>
     <div class="container">
-      <!-- Modern Header -->
       <header class="header">
         <a href="#" class="logo">Strike</a>
 
@@ -626,7 +68,7 @@
 
         <ul class="sidebar-menu">
           <li>
-            <a href="#">
+            <a href="{% url 'payments'%}">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -645,7 +87,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'manage_cards' %}">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -664,7 +106,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'customer_transaction_history' %}">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -685,7 +127,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'credit_score' %}">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -705,7 +147,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -742,14 +184,15 @@
           <div class="advert-section">
             <div class="advert-image">
               <img
-                src="/api/placeholder/400/320"
-                alt="Banking services illustration"
+                src="{% static 'home\web3.jpg' %}"
+                alt="Banking services
+              illustration"
               />
             </div>
             <div class="advert-text-container">
               <div class="advert-text">
-                Pay for goods and services at the comfort of your home in one
-                click!
+                Pay for goods and services at the in one click! CONVINIENCE IS
+                KEYS
               </div>
             </div>
           </div>
@@ -758,6 +201,7 @@
           <div class="payment-section">
             <h3>Make a Payment</h3>
             <form class="payment-form" id="paymentIdForm">
+              {% csrf_token %}
               <div class="form-group">
                 <label for="paymentId">Enter Payment ID</label>
                 <input
@@ -812,7 +256,7 @@
             </div>
             <div class="detail-item">
               <div class="detail-label">Merchant</div>
-              <div class="detail-value" id="detailMerchant">ABC Store</div>
+              <div class="detail-value" id="detailMerchant">Staceyltd</div>
             </div>
             <div class="detail-item">
               <div class="detail-label">Description</div>
@@ -824,7 +268,7 @@
 
           <div class="total-amount">
             <div class="total-label">Total Amount</div>
-            <div class="total-value" id="detailAmount">$250.00</div>
+            <div class="total-value" id="detailAmount">$50.00</div>
           </div>
 
           <div class="form-group">
@@ -858,6 +302,7 @@
 
         // Open sidebar
         menuBtn.addEventListener("click", function () {
+          console.log("Menu button clicked!");
           sidebar.classList.add("active");
           overlay.style.display = "block";
           document.body.style.overflow = "hidden"; // Prevent scrolling
@@ -891,24 +336,6 @@
         const paymentDetails = document.getElementById("paymentDetails");
         const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
         const successMessage = document.getElementById("successMessage");
-
-        // Mock data for demonstration
-        const mockPaymentData = {
-          "TXN-12345": {
-            paymentId: "TXN-12345",
-            date: "April 2, 2025",
-            merchant: "ABC Store",
-            description: "Purchase of electronics",
-            amount: "$250.00",
-          },
-          "TXN-67890": {
-            paymentId: "TXN-67890",
-            date: "April 2, 2025",
-            merchant: "XYZ Services",
-            description: "Monthly subscription",
-            amount: "$35.50",
-          },
-        };
 
         // Fetch payment details when form is submitted
         paymentIdForm.addEventListener("submit", function (e) {
@@ -952,46 +379,115 @@
         });
 
         // Handle confirm payment button
+        // Handle confirm payment button
         confirmPaymentBtn.addEventListener("click", function () {
-          const paymentMethod = document.getElementById("paymentMethod").value;
+          console.log("Payment confirmation button clicked");
+
+          const paymentMethod = document
+            .getElementById("paymentMethod")
+            .value.trim();
+          console.log("Selected payment method:", paymentMethod);
 
           if (!paymentMethod) {
+            console.log("Error: No payment method selected");
             alert("Please select a payment method");
             return;
           }
 
-          // Show processing
+          // Show processing state
+          console.log("Setting button to processing state");
           confirmPaymentBtn.textContent = "Processing...";
           confirmPaymentBtn.disabled = true;
 
-          // Simulate payment processing
-          setTimeout(function () {
-            // Hide payment details
-            paymentDetails.style.display = "none";
+          // Get payment details
+          const paymentId = document
+            .getElementById("detailPaymentId")
+            .textContent.trim();
+          const amountStr = document
+            .getElementById("detailAmount")
+            .textContent.replace("$", "")
+            .trim();
+          console.log("Payment details - ID:", paymentId, "Amount:", amountStr);
 
-            // Reset the form
-            paymentIdForm.reset();
+          // Prepare data for the backend
+          const paymentData = {
+            payment_id: paymentId,
+            amount: amountStr,
+            method: paymentMethod,
+          };
+          console.log("Prepared payment data:", paymentData);
 
-            // Show success message
-            successMessage.style.display = "block";
+          // Get CSRF token
+          const csrftoken = document.querySelector(
+            "[name=csrfmiddlewaretoken]"
+          )?.value;
+          console.log("CSRF token obtained:", csrftoken ? "Yes" : "No");
 
-            // Reset button state
-            confirmPaymentBtn.textContent = "Pay Now";
-            confirmPaymentBtn.disabled = false;
+          // Log the full request details
+          console.log("Sending request to /api/process-payment/");
+          console.log("Request body:", JSON.stringify(paymentData));
 
-            // Hide success message after animation completes
-            setTimeout(function () {
-              successMessage.style.display = "none";
-            }, 3500);
-          }, 2000);
+          // Send request to your Django backend
+          fetch("/api/process-payment/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(csrftoken ? { "X-CSRFToken": csrftoken } : {}),
+            },
+            body: JSON.stringify(paymentData),
+          })
+            .then((response) => {
+              console.log(
+                "Response received:",
+                response.status,
+                response.statusText
+              );
+              if (!response.ok) {
+                console.error("HTTP error!", response.status);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log("Response data:", data);
+
+              // Reset UI processing state
+              console.log("Resetting button state");
+              confirmPaymentBtn.textContent = "Pay Now";
+              confirmPaymentBtn.disabled = false;
+
+              if (data.status === "success") {
+                console.log("Payment successful");
+                // Hide payment details and reset form
+                paymentDetails.style.display = "none";
+                paymentIdForm.reset();
+
+                // Show success message
+                successMessage.style.display = "block";
+                successMessage.textContent =
+                  data.message || "Payment processed successfully!";
+                successMessage.scrollIntoView({ behavior: "smooth" });
+
+                // Hide success message after delay
+                setTimeout(function () {
+                  successMessage.style.display = "none";
+                }, 3500);
+              } else {
+                console.error("Payment failed:", data.message);
+                // Handle failure
+                alert(data.message || "Payment failed. Please try again.");
+              }
+            })
+            .catch((error) => {
+              console.error("Fetch error:", error);
+              confirmPaymentBtn.textContent = "Pay Now";
+              confirmPaymentBtn.disabled = false;
+              alert(
+                "An error occurred while processing your payment. Please try again."
+              );
+            });
         });
-
-        // Handle window resize
-        window.addEventListener("resize", function () {
-          if (window.innerWidth > 767 && sidebar.classList.contains("active")) {
-            closeSidebar();
-          }
-        });
+        // Handle confirm payment button
       });
     </script>
   </body>

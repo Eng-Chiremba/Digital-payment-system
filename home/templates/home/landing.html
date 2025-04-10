@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Our Service</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #0a192f;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #e6f1ff;
+      }
+      .container {
+        background-color: #112240;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+        border: 1px solid #1e3a6d;
+      }
+      h1 {
+        color: #64ffda;
+        margin-bottom: 20px;
+      }
+      p {
+        color: #a8b2d1;
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+      .options {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .option {
+        padding: 15px 30px;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: inline-block;
+        min-width: 180px;
+        border: 1px solid transparent;
+      }
+      .option:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+      .customer {
+        background-color: #1a5fb4;
+        border-color: #3d7dd8;
+      }
+      .customer:hover {
+        background-color: #1d6ac7;
+      }
+      .provider {
+        background-color: #0d417a;
+        border-color: #1e5999;
+      }
+      .provider:hover {
+        background-color: #0f4d8e;
+      }
+      .logo {
+        margin-bottom: 25px;
+        color: #64ffda;
+      }
+      .logo img {
+        max-width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <!-- Replace with your actual logo -->
+        <h2>Stacey Ltd</h2>
+      </div>
+      <h1>Welcome to Our Service</h1>
+      <p>Please select how you would like to use our platform.</p>
+
+      <div class="options">
+        <a href="{% url 'customer-signup' %}" class="option customer"
+          >I'm a Customer</a
+        >
+        <a href="{% url 'business-signup' %}" class="option provider"
+          >I'm a Service Provider</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

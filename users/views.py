@@ -5,15 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
 
 from .forms import CustomerSignupForm, ServiceProviderSignupForm, ProfileCompletionForm
-from .models import CustomUser
 
-def landing(request):
-    """
-    Landing page where users select their role.
-    """
-    return render(request, 'users/landing.html')
+User = get_user_model()
+
+
 
 def customer_signup(request):
     """
@@ -22,9 +20,13 @@ def customer_signup(request):
     if request.method == 'POST':
         form = CustomerSignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
-            return redirect('complete-profile')
+            username = form.cleaned_data.get('username')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists. Please choose another.")
+            else:
+                user = form.save()
+                auth_login(request, user)
+                return redirect('complete-profile')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -70,7 +72,7 @@ class CustomLoginView(LoginView):
             return reverse('customer-dashboard')
         elif user.user_type == 'service_provider':
             return reverse('provider-dashboard')
-        return reverse('home')
+        return reverse('landing')  # Fallback to landing page
 
 @login_required
 def complete_profile(request):
@@ -88,7 +90,10 @@ def complete_profile(request):
     if request.method == 'POST':
         form = ProfileCompletionForm(request.POST, instance=user)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=True)
+            user.is_profile_completed = True
+            user.save()
+            
             messages.success(request, "Profile completed successfully!")
             
             # Redirect to appropriate dashboard
@@ -103,10 +108,12 @@ def complete_profile(request):
     else:
         form = ProfileCompletionForm(instance=user)
     
-    return render(request, 'users/complete_profile.html', {'form': form})
-
-
-
+    context = {
+        'form': form,
+        'user_type': user.user_type.replace('_', ' ').title()  # For display purposes
+    }
+    
+    return render(request, 'users/complete_profile.html', context)
 
 '''
 kana washinga kutemwa nemusoro shandisa view iri

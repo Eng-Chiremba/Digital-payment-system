@@ -17,13 +17,19 @@ class CustomerSignupForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ('phone_number', 'password1', 'password2')
+        fields = ('phone_number','full_name', 'password1', 'password2')
+
+        def clean_phone_number(self):
+            phone_number = self.cleaned_data.get('phone_number')
+
+            
     
     def save(self, commit=True):
         user = super().save(commit=False)
         user.user_type = 'customer'
         user.username = self.cleaned_data.get('phone_number')  # Use phone number as username
         user.phone_number = self.cleaned_data.get('phone_number')
+        user.full_name = self.cleaned_data.get('full_name')
         if commit:
             user.save()
         return user
@@ -44,13 +50,14 @@ class ServiceProviderSignupForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ('phone_number', 'company_name', 'address', 'password1', 'password2')
+        fields = ('phone_number','full_name', 'company_name', 'address', 'password1', 'password2')
     
     def save(self, commit=True):
         user = super().save(commit=False)
         user.user_type = 'service_provider'
         user.username = self.cleaned_data.get('phone_number')  # Use phone number as username
         user.phone_number = self.cleaned_data.get('phone_number')
+        user.full_name = self.cleaned_data.get('full_name')
         user.company_name = self.cleaned_data.get('company_name')
         user.address = self.cleaned_data.get('address')
         if commit:

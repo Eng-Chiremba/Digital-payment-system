@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_kipzzukqej2yrtg4^gicrdl2g7r@&jp3$8l_aytxgf$e=i%3s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '192.168.68.124', '10.15.134.181']
+ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '192.168.68.136', '10.15.134.181', '10.140.12.11', '10.144.1.173']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
+    'transactions.apps.TransactionsConfig',
     'users.apps.UsersConfig',
     'django.contrib.sites',
     'allauth',
@@ -51,10 +52,10 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend', 
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    
 ]
-
+#'allauth.account.auth_backends.AuthenticationBackend',
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -146,8 +147,8 @@ AUTH_USER_MODEL = 'users.CustomUser'
 ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'users.adapters.CustomSocialAccountAdapter'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
 
 # Internationalization

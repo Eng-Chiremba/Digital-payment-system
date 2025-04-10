@@ -1,0 +1,723 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'home/provider_pg.css'%}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
+    />
+    <title>Strike - Service Provider Dashboard</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a href="{% url 'provider-dashboard' %}" class="logo">Strike</a>
+
+        <button class="menu-btn" id="menuBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="header-right">
+          <a href="{% url 'provider-dashboard' %}" class="active">Dashboard</a>
+          <a href="{% url 'provider_transaction_history' %}">Transactions</a>
+          <a href="{% url 'provider-settings' %}">Settings</a>
+        </div>
+      </header>
+
+      <!-- Sidebar -->
+      <div id="sidebar" class="sidebar">
+        <button class="closebtn" id="closeBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="profile-section">
+          <div class="profile-icon">{{ company_name|slice:":1" }}</div>
+          <h2>{{ company_name }}</h2>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li>
+            <a href="{% url 'provider-dashboard' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'provider_transaction_history' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                <path
+                  d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+                ></path>
+              </svg>
+              Transaction History
+            </a>
+          </li>
+          <li>
+            <a href="#business" class="settings-nav-link" onclick="showPanel('create_payment')">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              Create Payment
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="3"></circle>
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                ></path>
+              </svg>
+              AI Business tools
+            </a>
+          </li>
+
+          <li>
+            <a href="{% url 'provider-settings' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="3"></circle>
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                ></path>
+              </svg>
+              Settings
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'signout' %}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Sign Out
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Overlay -->
+      <div id="overlay" class="overlay"></div>
+
+      <!-- Success Message -->
+      <div id="successMessage" class="success-message">
+        <div>Payment request created successfully!</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="welcome-section">
+          <h2>Welcome back, {{ company_name }}</h2>
+          <p>Here's your business overview</p>
+        </div>
+
+        <div class="content-grid">
+          <!-- Stats Section -->
+          <div class="stats-section">
+            <div class="stats-container">
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path
+                      d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-title">Total Revenue</div>
+                  <div class="stat-value">
+                    ${{ current_month_revenue|floatformat:2 }}
+                  </div>
+                  <div
+                    class="stat-change {% if revenue_change >= 0 %}positive{% else %}negative{% endif %}"
+                  >
+                    {{ revenue_change|floatformat:1 }}% from last month
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect
+                      x="2"
+                      y="3"
+                      width="20"
+                      height="14"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-title">Transactions</div>
+                  <div class="stat-value">{{ current_month_transactions }}</div>
+                  <div
+                    class="stat-change {% if transactions_change >= 0 %}positive{% else %}negative{% endif %}"
+                  >
+                    {{ transactions_change|floatformat:1 }}% from last month
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analytics Charts -->
+          <div class="analytics-section">
+            <div class="chart-container">
+              <h3>Revenue Trends</h3>
+              <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="chart-container">
+              <h3>Transaction Distribution</h3>
+              <canvas id="transactionDistChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Create Payment Section -->
+          <div class="payment-section" id="create_payment">
+            <h3>Create Payment Request</h3>
+            <form
+              class="payment-form"
+              id="createPaymentForm"
+              method="post"
+              action="{% url 'create_payment' %}"
+            >
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="description">Description</label>
+                <input
+                  type="text"
+                  id="description"
+                  name="description"
+                  placeholder="e.g. Website Development"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="amount">Amount ($)</label>
+                <input
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  placeholder="e.g. 150.00"
+                  step="0.01"
+                  min="0.01"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="customer_email">Customer Email (Optional)</label>
+                <input
+                  type="email"
+                  id="customer_email"
+                  name="customer_email"
+                  placeholder="e.g. customer@example.com"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="expiry_date">Expiry Date</label>
+                <input
+                  type="date"
+                  id="expiry_date"
+                  name="expiry_date"
+                  required
+                />
+              </div>
+
+              <button type="submit" id="createPaymentBtn">
+                Create Payment Request
+              </button>
+
+              <!-- Processing Indicator -->
+              <div id="processingIndicator" class="processing-indicator">
+                <div class="spinner"></div>
+                <div>Creating payment request...</div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Payment ID Display (Hidden Initially) -->
+        <div id="paymentDetails" class="payment-details">
+          <h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M2 12h20M2 12l5-5M2 12l5 5" />
+            </svg>
+            Payment Request Created
+          </h3>
+          <div class="details-grid">
+            <div class="detail-item">
+              <div class="detail-label">Payment ID</div>
+              <div class="detail-value" id="generatedPaymentId">{{Payment_id}}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Created Date</div>
+              <div class="detail-value" id="createdDate">April 2, 2025</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Status</div>
+              <div class="detail-value status-pending">Pending</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Amount</div>
+              <div class="detail-value" id="detailAmount">$150.00</div>
+            </div>
+          </div>
+
+          <div class="payment-sharing">
+            <h4>Share with Customer</h4>
+            <div class="payment-url-container">
+              <input
+                type="text"
+                id="paymentUrl"
+                readonly
+                value="https://strike.com/pay/TXN-12345"
+              />
+              <button id="copyUrlBtn" class="copy-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <p class="payment-instruction">
+              Send this payment ID to your customer or they can use the link
+              above.
+            </p>
+          </div>
+
+          <button id="createNewBtn" class="secondary-btn">
+            Create Another Payment
+          </button>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="recent-transactions">
+          <h3>Recent Transactions</h3>
+          <div class="transaction-list">
+            {% for transaction in recent_transactions %}
+            <div class="transaction-item">
+              <div class="transaction-details">
+                <div class="transaction-title">
+                  {{ transaction.description }}
+                </div>
+                <div class="transaction-id">
+                  {{ transaction.transaction_id }}
+                </div>
+              </div>
+              <div class="transaction-status {{ transaction.status|lower }}">
+                {{ transaction.status }}
+              </div>
+              <div class="transaction-amount">
+                ${{ transaction.amount|floatformat:2 }}
+              </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+              <p>No recent transactions found</p>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="view-all">
+            <a
+              href="{% url 'provider_transaction_history' %}"
+              class="view-all-link"
+              >View All Transactions</a
+            >
+          </div>
+        </div>
+
+        <footer>© 2025 Strike</footer>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar functionality
+        const menuBtn = document.getElementById("menuBtn");
+        const closeBtn = document.getElementById("closeBtn");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+
+        // Open sidebar
+        menuBtn.addEventListener("click", function () {
+          sidebar.classList.add("active");
+          overlay.style.display = "block";
+          document.body.style.overflow = "hidden"; // Prevent scrolling
+        });
+
+        // Close sidebar
+        function closeSidebar() {
+          sidebar.classList.remove("active");
+          overlay.style.display = "none";
+          document.body.style.overflow = "";
+        }
+
+        closeBtn.addEventListener("click", closeSidebar);
+        overlay.addEventListener("click", closeSidebar);
+
+        // Close sidebar when clicking a menu item (mobile)
+        const menuItems = document.querySelectorAll(".sidebar-menu a");
+        menuItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            if (window.innerWidth <= 767) {
+              closeSidebar();
+            }
+          });
+        });
+
+        // Initialize Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Monthly Revenue ($)',
+                    data: [4800, 5200, 4900, 5450, 5100, {{ current_month_revenue }}],
+                    backgroundColor: 'rgba(62, 121, 247, 0.1)',
+                    borderColor: 'rgba(62, 121, 247, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(62, 121, 247, 1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Initialize Transaction Distribution Chart
+        const transDistCtx = document.getElementById('transactionDistChart').getContext('2d');
+        const transDistChart = new Chart(transDistCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Pending', 'Failed', 'Refunded'],
+                datasets: [{
+                    data: [70, 15, 10, 5],
+                    backgroundColor: [
+                        'rgba(46, 213, 115, 0.8)',
+                        'rgba(255, 195, 0, 0.8)',
+                        'rgba(255, 71, 87, 0.8)',
+                        'rgba(86, 101, 115, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 20,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // Form submission
+        const createPaymentForm = document.getElementById("createPaymentForm");
+        const processingIndicator = document.getElementById(
+          "processingIndicator"
+        );
+        const paymentDetails = document.getElementById("paymentDetails");
+        const createNewBtn = document.getElementById("createNewBtn");
+        const successMessage = document.getElementById("successMessage");
+        const copyUrlBtn = document.getElementById("copyUrlBtn");
+
+        if (createPaymentForm) {
+          createPaymentForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Show processing indicator
+            processingIndicator.style.display = "block";
+
+            // Get form data
+            const formData = new FormData(createPaymentForm);
+
+         
+            // Get the CSRF token from the form
+            const csrfToken = document.querySelector('[           name=csrfmiddlewaretoken]').value;
+
+            for (let pair of formData.entries()) {
+              console.log(pair[0] + ': ' + pair[1]);
+            }
+            
+            fetch(createPaymentForm.action, {
+              method: "POST",
+              body: formData,
+              headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": csrfToken,
+              },
+              credentials: 'same-origin'
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Server response:", data);
+                processingIndicator.style.display = "none";
+
+                if (data.success) {
+                  // Update payment details
+                  document.getElementById("generatedPaymentId").textContent =
+                    data.payment_id;
+                  document.getElementById("createdDate").textContent =
+                    data.created_date;
+                  document.getElementById("detailAmount").textContent =
+                    data.amount;
+                  document.getElementById(
+                    "paymentUrl"
+                  ).value = `https://strike.com/pay/${data.payment_id}`;
+
+                  // Show payment details
+                  paymentDetails.style.display = "block";
+                  paymentDetails.scrollIntoView({ behavior: "smooth" });
+
+                  // Hide form
+                  createPaymentForm.style.display = "none";
+                } else {
+                  console.error("Error from server:", data.error);
+                  alert(
+                    data.error ||
+                      "An error occurred while creating the payment request."
+                  );
+                }
+              })
+              .catch((error) => {
+                console.error("Fetch error:", error);
+                processingIndicator.style.display = "none";
+                alert("An error occurred. Please try again.");
+                
+              });
+          });
+        }
+
+        // Create new payment button
+        if (createNewBtn) {
+          createNewBtn.addEventListener("click", function () {
+            // Show form
+            createPaymentForm.style.display = "block";
+            // Hide payment details
+            paymentDetails.style.display = "none";
+            // Reset form
+            createPaymentForm.reset();
+          });
+        }
+
+        // Copy URL button
+        if (copyUrlBtn) {
+          copyUrlBtn.addEventListener("click", function () {
+            const paymentUrl = document.getElementById("paymentUrl");
+            paymentUrl.select();
+            document.execCommand("copy");
+
+            // Show success message
+            successMessage.textContent = "Payment URL copied to clipboard!";
+            successMessage.style.display = "block";
+
+            // Hide success message after animation completes
+            setTimeout(function () {
+              successMessage.style.display = "none";
+            }, 3500);
+          });
+        }
+
+        // Set default expiry date to 7 days from now
+        const expiryDateInput = document.getElementById("expiry_date");
+        if (expiryDateInput) {
+          const today = new Date();
+          const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+          const year = nextWeek.getFullYear();
+          const month = String(nextWeek.getMonth() + 1).padStart(2, "0");
+          const day = String(nextWeek.getDate()).padStart(2, "0");
+          expiryDateInput.value = `${year}-${month}-${day}`;
+          expiryDateInput.min = `${today.getFullYear()}-${String(
+            today.getMonth() + 1
+          ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+        }
+      });
+    </script>
+  </body>
+</html>

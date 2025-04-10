@@ -11,8 +11,10 @@ class CustomUser(AbstractUser):
         choices=USER_TYPE_CHOICES,
         default='customer'
     )
-    
+    is_profile_completed = models.BooleanField(default=False)  
+
      # additional feilds for service provider
+    full_name = models.CharField(max_length=255, blank=True, null=True)
     company_name = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
 
