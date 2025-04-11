@@ -77,10 +77,18 @@ Before you begin, ensure you have the following installed:
 5.**Set up environment variables:**
 -fill the requirement configuration values 
 
-# **Usage**
-```bash
-python manage.py runserver
+4. **Usage**
+   ```bash
+   python manage.py runserver
+# 
 
 - The application should now be running at http://localhost:8000.
 
-#Contact +263787433135
+#Contact +263787433135 ; cchiremba7@gmail.com
+
+![Screenshot 2025-04-11 154532](https://github.com/user-attachments/assets/ff319e31-6ca9-4ec1-a17c-58a244330683)
+![Screenshot 2025-04-11 154628](https://github.com/user-attachments/assets/93f85901-8264-4f56-a4bc-44bc4d09cb00)
+![Screenshot 2025-04-11 154649](https://github.com/user-attachments/assets/e503e695-54a3-4405-a676-508748e37c6c)
+![Screenshot 2025-04-11 154708](https://github.com/user-attachments/assets/a89cf62c-2732-4315-90ab-de1f5f385107)
+![Screenshot 2025-04-11 154812](https://github.com/user-attachments/assets/68de0a09-17bd-4628-af30-3318ecff2a9b)
+
