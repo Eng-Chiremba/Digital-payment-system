@@ -2,7 +2,7 @@
 
 Empowering seamless transactions, transforming your financial experience.
 
-![Last commit](https://img.shields.io/badge/last_commit-today-brightgreen) ![HTML](https://img.shields.io/badge/PYTHON -52.3%25-orange) ![Languages](https://img.shields.io/badge/languages-3-blue)
+![Last commit](https://img.shields.io/badge/last_commit-today-brightgreen) ![HTML](https://img.shields.io/badge/PYTHON-52.3%25-orange) ![Languages](https://img.shields.io/badge/languages-3-blue)
 
 Built with:
 - Django
